@@ -4,10 +4,11 @@ from redis import Redis
 from dao.git_dao import GitDatabase
 from dao.jira_dao import JiraDatabase
 from dao.user_dao import UserDatabase
+from flask_cors import CORS
 
 app = flask.Flask(__name__)
 redis = Redis(host='redis', port=6379)
-
+CORS(app)
 
 @app.route('/users', methods=["GET"])
 def users():
