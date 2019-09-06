@@ -2,15 +2,18 @@
 import flask
 from redis import Redis
 from dao.git_dao import GitDatabase
+from dao.user_dao import UserDatabase
 
-app = flask.Flask(__name__)
 
+app = Flask(__name__)
 redis = Redis(host='redis', port=6379)
 
-@app.route('/')
-def hello():
-    redis.incr('hits')
-    return 'This Compose/Flask demo has been viewed %s time(s).' % redis.get('hits')
+
+@app.route('/users')
+def users():
+    user = UserDatabase()
+    user.get_all_users()
+    
 
 @app.route('/gitcommits', methods=["GET"])
 def git_commits():
