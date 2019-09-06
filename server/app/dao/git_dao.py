@@ -15,6 +15,12 @@ class GitDatabase:
             del i['_id']
         return data
     
+    def get_commits_from_user(self, ticket_id, username):
+        data = [i for i in list(self.mycol.find({'author_name': username})) if ticket_id in i['commit_message']]
+        for i in data:
+            del i['_id']
+        return data
+    
     def write_all_commits(self, all_commits_status):
         response = self.mycol.insert_many(all_commits_status)
         return response
