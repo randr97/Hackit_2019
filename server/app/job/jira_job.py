@@ -1,5 +1,6 @@
 from jira.client import JIRA
 from redis import Redis
+from dao.jira_dao import JiraJob
 import logging
 import schedule
 import time
@@ -14,13 +15,14 @@ ADMIN_ID="rohitshrothrium.ss1997@gmail.com"
 AUTH_TOKEN="3kyiChzvatMWEJ6aGri0EF0F"
 
 # get issues
-def get_issues(jc):    
+def get_issues(jc):  
+    print("Calling job ==========>")  
     projects = jc.projects()
     issues_final = []
     for v in projects:
         issues_in_proj = jc.search_issues(f'project={v.key}')
         for issues in issues_in_proj:
-            cache = json.loads(redis.get('ticket_id'))=
+            cache = json.loads(redis.get('ticket_id'))
             if issues.id not in cache:
                 print("mofo")
                 cache.append(issues.id)
@@ -38,8 +40,12 @@ def get_issues(jc):
                     'commits':[]
                 }
                 issues_final.append(issue_temp)
-    print('To mongo ==========>', issues_final)
-    return issues_final
+    if(len(issues_final) > 0):
+        to_mongo = JiraJob()
+        print('To mongo ==========>', issues_final)
+        response = to_mongo.write_all_tickets(issues_final)
+        print('Mongo Response ==========>', response)
+        return issues_final
 
 
 # Defines a function for connecting to Jira
@@ -63,7 +69,7 @@ def job():
     jc = connect_jira(log, PROJECT_URL, ADMIN_ID, AUTH_TOKEN)
     get_issues(jc)
 
-schedule.every(5).minutes.do(job())
-# while 1:
-#     job()
-#     time.sleep(1)
+# schedule.every(5).minutes.do(job())
+while 1:
+    job()
+    time.sleep(1)

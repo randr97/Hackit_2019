@@ -5,7 +5,7 @@ class GitDatabase:
     
     def __init__(self):
         # initialize database
-        self.client = MongoClient('mongodb://localhost:27017/')
+        self.client = MongoClient('mongodb://db:27017/')
         self.mydb = self.client["hackit"]
         self.mycol = self.mydb["git_commit_data"]
     
