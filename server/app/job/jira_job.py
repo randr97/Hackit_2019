@@ -1,12 +1,17 @@
 from jira.client import JIRA
+from redis import Redis
 import logging
 import schedule
 import time
-from redis import Redis
 import json
 
 redis = Redis(host='redis', port=6379)
 redis.set('ticket_id', json.dumps(['ID']))
+
+
+PROJECT_URL="https://bitsandbytes.atlassian.net"
+ADMIN_ID="rohitshrothrium.ss1997@gmail.com"
+AUTH_TOKEN="3kyiChzvatMWEJ6aGri0EF0F"
 
 # get issues
 def get_issues(jc):    
@@ -55,8 +60,7 @@ def connect_jira(log, jira_server, jira_user, jira_password):
 log = logging.getLogger(__name__)
 
 def job():
-    jc = connect_jira(log, "https://bitsandbytes.atlassian.net", "rohitshrothrium.ss1997@gmail.com", 
-    "3kyiChzvatMWEJ6aGri0EF0F")
+    jc = connect_jira(log, PROJECT_URL, ADMIN_ID, AUTH_TOKEN)
     get_issues(jc)
 
 schedule.every(5).minutes.do(job())
