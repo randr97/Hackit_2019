@@ -18,6 +18,12 @@ class JiraDatabase:
         response = self.mycol.find({})
         return response
     
+    def get_tickets_id(self,acc_id):
+        response = list(self.mycol.find({'assignee.accountId':acc_id}))
+        for i in response:
+            del i['_id']
+        return response
+    
     def write_all_tickets(self, issue_data):
         reponse = self.mycol.insert_many(issue_data)
         return reponse

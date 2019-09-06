@@ -15,7 +15,15 @@ class UserDatabase:
         self.mycol = self.mydb["user_data"]
     
     def get_all_users(self):
-        response = self.mycol.find({})
+        response = list(self.mycol.find())
+        for i in response:
+            del i['_id']
+        return response
+    
+    def get_user_id(self,id):
+        response = list(self.mycol.find({'accountId':id}))
+        for i in response:
+            del i['_id']
         return response
     
     def write_users(self, issue_data):

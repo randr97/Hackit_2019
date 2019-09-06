@@ -2,17 +2,31 @@
 import flask
 from redis import Redis
 from dao.git_dao import GitDatabase
-from dao.user_dao import UserDatabase
+from dao.jira_dao import JiraDatabase
 
 
-app = Flask(__name__)
+app = flask.Flask(__name__)
 redis = Redis(host='redis', port=6379)
 
 
-@app.route('/users')
+@app.route('/users', methods=["GET"])
 def users():
     user = UserDatabase()
-    user.get_all_users()
+    response = user.get_all_users()
+    return flask.jsonify({"result": response})
+
+
+@app.route('/users/<acc_id>', methods=["GET"])
+def jira_tickets(acc_id):
+    ticket = JiraDatabase()
+    response = ticket.get_tickets_id(acc_id)
+    return flask.jsonify({"user_info": response})
+
+@app.route('/users/<acc_id>/<ticket_name>', methods=["GET"])
+def jira_tickets(acc_id, ticket_name):
+    ticket = JiraDatabase()
+    response = ticket.get_tickets_id(acc_id)
+    return flask.jsonify({"user_info": response})
     
 
 @app.route('/gitcommits', methods=["GET"])
