@@ -1,0 +1,30 @@
+version: '2'
+
+services:
+  web:
+    build: ./server
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+    depends_on:
+      - redis
+    command: "tail -f /dev/null"
+    # command: ["python", "app.py"]
+    volumes:
+      - ./server/app:/code
+      - site-packages:/usr/local/lib/python3.7/site-packages
+    links:
+      - db
+  db:
+    image: mongo:3.0.2
+    expose:
+      - 27017
+    volumes:
+      - ./localFolder:/data/db
+  redis:
+    image: redis
+
+volumes:
+  node-modules:
+  site-packages:
+    driver: local
