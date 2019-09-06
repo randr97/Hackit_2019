@@ -6,8 +6,8 @@ import json
 redis = Redis(host='redis', port=6379)
 
 
-class JiraJob:
-
+class JiraDatabase:
+    
     def __init__(self):
         # initialize database
         self.client = MongoClient('mongodb://db:27017/')
