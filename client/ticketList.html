@@ -1,0 +1,21 @@
+<div ng-controller="MyController1">
+        <div ng-bind-html="count"></div>
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <th>Index</th>
+                <th>Name</th>
+                <th>Country</th>
+                <th></th>
+            </tr>
+            <tbody ng-repeat="m in Employees">
+                <a href="#$index"><tr>
+                    <td>{{$index}}</td>
+                    <td>{{m.Name}}</td>
+                    <td>{{m.Country}}</td>
+                    <td>
+                        <input type="button" value="Get Row Index" ng-click="GetRowIndex1($index)" />
+                    </td>
+                </tr></a>
+            </tbody>
+        </table>
+</div>

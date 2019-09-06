@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+	  <title>Employee Table</title>
+	  <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1">
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+	  <link rel="stylesheet" href="style.css">
+    <style>
+        th, td, p, input {
+            font:14px Verdana;
+        }
+        table, th, td 
+        {
+            border: solid 1px #DDD;
+            border-collapse: collapse;
+            padding: 2px 3px;
+            text-align: center;
+        }
+        th {
+            font-weight:bold;
+        }
+    </style>
+</head>
+<body>
+	<div class="container">
+		<h2> Employee List : </h2>
+	    <p id="showData"></p>
+	</div>
+
+<script>
+    window.onload = function CreateTableFromJSON() {
+        var myBooks = [
+            {
+                "Employee ID": "001",
+                "Employee Name": "Computer Architecture"
+            },
+            {
+                "Employee ID": "002",
+                "Employee Name": "Asp.Net 4 Blue Book"
+            },
+            {
+                "Employee ID": "003",
+                "Employee Name": "Popular Science"
+            }
+        ]
+
+        // EXTRACT VALUE FOR HTML HEADER. 
+        // ('Book ID', 'Book Name', 'Category' and 'Price')
+        var col = [];
+        for (var i = 0; i < myBooks.length; i++) {
+            for (var key in myBooks[i]) {
+                if (col.indexOf(key) === -1) {
+                    col.push(key);
+                }
+            }
+        }
+
+        // CREATE DYNAMIC TABLE.
+        var table = document.createElement("table");
+        table.classList.add("table-striped");
+        table.setAttribute("id", "my_table");
+
+        // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
+
+        var tr = table.insertRow(-1); 
+                          // TABLE ROW.
+
+        for (var i = 0; i < col.length; i++) {
+            var th = document.createElement("th");      // TABLE HEADER.
+            th.innerHTML = col[i];
+            tr.appendChild(th);
+        }
+
+        //fetching rows
+
+        // ADD JSON DATA TO THE TABLE AS ROWS.
+        for (var i = 0; i < myBooks.length; i++) {
+
+            tr = table.insertRow(-1);
+
+            for (var j = 0; j < col.length; j++) {
+                var tabCell = tr.insertCell(-1);
+                if(j===0){
+                	console.log(myBooks[i][col[j]]);
+                	var ticket_id = myBooks[i][col[j]];
+                }
+               // document.getElementById("ticketName").innerHTML = myBooks[i][col[j]];
+            	//console.log(tr.rowIndex);
+            	var rowNum = tr.rowIndex;
+            	//console.log(rowNum);
+            	tr.id = rowNum;
+            	//console.log(tr.id);
+                tabCell.innerHTML = myBooks[i][col[j]];
+            }
+            //myBooks[i].onclick = redirectTo(i);
+            //myBooks[i] = redirectTo(rowNum);
+            //tr.addEventListener("click",showPanel(ticket_id));
+        }
+
+
+        var rows = document.getElementById('my_table').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+    for (i = 0; i < rows.length; i++) {
+        rows[i].onclick = function() {
+            alert(this.rowIndex + 1);
+        }
+    }
+
+        //tr.addEventListener("click", alert("click tr"));
+        
+        // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
+        var divContainer = document.getElementById("showData");
+        divContainer.innerHTML = "";
+        divContainer.appendChild(table);
+
+}
+    function redirectTo(){
+       // console.log(x);
+        location.href = "ticketList.html";
+    }
+
+    function showPanel(x){
+    	console.log(x);
+    }
+</script>
+</body>
+</html>
+

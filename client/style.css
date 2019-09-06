@@ -1,0 +1,109 @@
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.container{
+	padding:0;
+	margin:0;
+	height: 100%!important;
+	overflow:auto;
+}
+.left-panel{
+	background-color:#170D90;
+	height:100%;
+	margin:0;
+	padding:0;
+	overflow:auto;
+}
+ul{
+	padding-left:0px;
+}
+li{
+	list-style-type: none;
+    padding: 20px 0px;
+    color: color: #42526E;
+    font-weight: 500;
+    font-size: 14px;
+    padding-right: 40px;
+    padding-left:20px;
+    border-bottom: 2px solid rgba(9,30,66,0.08);
+    font-family: sans-serif;
+}
+li:hover{
+	background-color:aliceblue;
+}
+#name-ticket{
+	color:grey;
+}
+.contain{
+	display:flex;
+	width: 100%;
+}
+#ticket_table{
+	display: none;
+	padding-top: 100px;
+	background-color:#f5f5f5;
+}
+#ticket-details{
+	display: none;
+	padding: 0px 50px;
+	padding-top: 100px;
+}
+#list-head{
+	color:grey;
+	font-size: 21px;
+	font-family:initial;
+}
+h5{
+	text-align: center;
+    color: white;
+    font-size: 18px;
+    color: #DEEBFF;
+}
+h6{
+			text-align:center;
+			color: #DEEBFF;
+			margin:0px;
+
+}
+.contain>div{
+	border-right:2px solid #ccc;
+}
+#person{
+	    background-color: #170D90;
+	padding: 30px 10px;
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+img{
+	width:100px;
+	border-radius: 50%;
+}
+button{
+	padding: 20px!important;
+    background-color: aliceblue!important;
+    color: darkblue!important;
+    border-color: darkblue;
+    font-weight: bold;
+}
+#tickID{
+	font-size: 30px;
+    margin-bottom: 30px;
+    color: darkblue;
+    /* text-decoration: underline; */
+    font-family: monospace;
+}
+#one-person{
+	border-bottom: 1px solid grey;
+	padding: 10px 0px;
+	padding: 21px 0px;
+}
+#nameList{
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

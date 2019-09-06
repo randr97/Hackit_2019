@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <title>Everest Contractor Tool</title>
+    <style type="text/css">
+        body
+        {
+            font-family: Arial;
+            font-size: 10pt;
+        }
+        table
+        {
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+        }
+        table th
+        {
+            background-color: #F7F7F7;
+            color: #333;
+            font-weight: bold;
+        }
+        table th, table td
+        {
+            padding: 5px;
+            border: 1px solid #ccc;
+        }
+    </style>
+    <link href="style.css" rel="stylesheet"/>
+</head>
+<body>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.9/angular.min.js"></script>
+    <script type="text/javascript">
+        var app = angular.module('MyApp', [])
+        app.controller('MyController', function ($scope, $window) {
+
+              $scope.Tickets = [
+                { TicketID: "KOYEMPL-15", Name: "Email Template V02" },
+                { TicketID: "KOYEMPL-41", Name: "Header Section" },
+                { TicketID: "KOYEMPL-153", Name: "Footer Links" },
+                { TicketID: "KOYEMPL-13", Name: "Nav bar font colors" }
+               ];
+
+               $scope.Employees = [
+                { JiraID: "person123", Name: "Sunny Fong", title: "Frontend Developer" , tickets: [ "KOYEMPL-15", "KOYEMPL-009", "KOYEMPL-76" ] , img : "assets/icon.png" },
+                { JiraID: "person121", Name: "Saumya Agarwal", title: "Full-stack Developer", tickets: [ "KOYEMPL-95", "KOYEMPL-078", "KOYEMPL-9754" ] , img : "assets/person1.png" },
+                { JiraID: "person567", Name: "Riya Gupta", title: "QA", tickets: [ "KOYEMPL-415", "KOYEMPL-7609", "KOYEMPL-06" ] , img : "assets/person2.png" },
+                { JiraID: "person875", Name: "John Doe", title: "UX Designer", tickets: [ "KOYEMPL-335", "KOYEMPL-009", "KOYEMPL-89" ] , img : "assets/person3.png" }
+               ];
+
+               $scope.Assigned = [
+                { JiraID: "person123", tickets: [ "KOYEMPL-15", "KOYEMPL-009", "KOYEMPL-76" ] },
+                { JiraID: "person121", tickets: [ "KOYEMPL-25", "KOYEMPL-059", "KOYEMPL-756" ] },
+                { JiraID: "person567", tickets: [ "KOYEMPL-44", "KOYEMPL-79", "KOYEMPL-790" ] },
+                { JiraID: "person875", tickets: [ "KOYEMPL-143", "KOYEMPL-99", "KOYEMPL-344" ] }
+               ];
+
+               
+
+            $scope.showTicketDetail = function (index,m) {
+                console.log(m);
+                //document.getElementById("employee_table").style.display="none";
+                document.getElementById("ticket-details").style.display="block";
+                
+                $scope.id = $scope.Tickets[index].TicketID;
+                document.getElementById("tickID").innerHTML = m;
+                $scope.name = $scope.Tickets[index].Name;
+                $scope.count = "0001";
+                //$window.alert("Name: " + name );
+            };
+
+            $scope.showTickets = function (index) {
+                
+                document.getElementById("ticket_table").style.display="block";
+                document.getElementById("assignee").innerHTML = $scope.Employees[index].Name;
+                console.log($scope.Employees[index].Name);
+
+                $scope.ticketsAll = $scope.Employees[index].tickets;
+                console.log($scope.Employees[index].tickets);
+
+                $scope.id = $scope.Tickets[index].TicketID;
+                document.getElementById("tickID").innerHTML = $scope.Tickets[index].TicketID;
+                $scope.name = $scope.Tickets[index].Name;
+                $scope.flag = 0;
+                for(i=0;i < $scope.Employees.length;i++){
+                    if(index === $scope.Employees.tickets[i])
+                        console.log("yes");
+                    else
+                        console.log("no");
+                }
+                //$scope.count = "0001";
+                //$window.alert("Name: " + name );
+            };
+        });
+
+
+
+    </script>
+    <script src="script.js"></script>
+    <div ng-app="MyApp" ng-controller="MyController" class="contain">
+        <div class="left-panel">
+            <div id="person">
+                <div ng-repeat="x in Employees" id="one-person">
+                   <div ng-click="showTickets($index)" id="nameList"> 
+                        <img src="{{x.img}}"/>
+                        <h5>{{ x.Name }}</h5>
+                        <h6>{{ x.title }}</h6>
+                    </div>    
+                </div> 
+            </div>
+        </div>    
+        <div cellpadding="0" cellspacing="0" id="ticket_table">
+            <ul><li id="list-head">Jira Tickets for <span id="assignee"></span></li></ul>
+            <ul ng-repeat="m in ticketsAll">
+                <li ng-click="showTicketDetail($index,m)">
+                        {{m}}                    
+                </li>
+            </ul>
+        </div>
+
+        <div id="ticket-details">
+            <div id="ticket-title"></div>
+            <div>
+                <div id="tickID">ticket name</div>
+                <button  type="button" class="btn btn-default">START</button>
+                <button  type="button" class="btn btn-default">PAUSE</button>
+                <button type="button" class="btn btn-default">STOP</button>
+            </div>
+            <div id="chart_div"></div>
+        </div>
+
+    </div>
+</body>
+</html>
