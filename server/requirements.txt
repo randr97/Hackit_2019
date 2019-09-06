@@ -3,3 +3,4 @@ redis==3.3.8
 flask-cors==3.0.8
 pandas
 pymongo
+PyGithub
