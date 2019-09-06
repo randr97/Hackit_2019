@@ -66,7 +66,6 @@ class GitHubJob:
             return False
 
 job_object = GitHubJob()
-job_object.git_job()
-# while 1:
-#     job_object.git_job()
-#     time.sleep(1)
+while 1:
+    job_object.git_job()
+    time.sleep(1)
