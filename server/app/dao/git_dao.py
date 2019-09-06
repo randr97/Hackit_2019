@@ -10,16 +10,9 @@ class GitDatabase:
         self.mycol = self.mydb["git_commit_data"]
     
     def write_all_commits(self, all_commits_status):
-        try:    
-            self.mycol.insert_many(all_commits_status)
-            return True
-        except Exception as e:
-            print(e)
-            return False
+        response = self.mycol.insert_many(all_commits_status)
+        return response
     
     def delete_all_commits(self):
-        try:
-            self.mycol.delete_many({})
-        except Exception as e:
-            print(e)
-            return False
+        response = self.mycol.delete_many({})
+        return response
