@@ -10,8 +10,10 @@ class GitDatabase:
         self.mycol = self.mydb["git_commit_data"]
     
     def get_all_commits(self):
-        data = self.mycol.find()
-        return list(data)
+        data = list(self.mycol.find())
+        for i in data:
+            del i['_id']
+        return data
     
     def write_all_commits(self, all_commits_status):
         response = self.mycol.insert_many(all_commits_status)
@@ -21,4 +23,3 @@ class GitDatabase:
         response = self.mycol.delete_many({})
         return response
     
-
