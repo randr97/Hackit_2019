@@ -5,7 +5,7 @@ from github import Github
 
 from dao.git_dao import GitDatabase
 
-TOKEN = 'ead9543ebd19db345ffadaff493d006201ff305a'
+TOKEN = 'e5e696af62d9ef7bb09643a18194008cf48937f0'
 REPO_NAME = 'Hackit_2019'
 
 class GitHubJob:

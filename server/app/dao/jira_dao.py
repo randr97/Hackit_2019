@@ -18,6 +18,12 @@ class JiraDatabase:
         response = self.mycol.find({})
         return response
     
+    def get_ticket_by_name(self,name):
+        response = list(self.mycol.find({'ticket_name':name}))
+        for i in response:
+            del i['_id']
+        return response
+    
     def get_tickets_id(self,acc_id):
         response = list(self.mycol.find({'assignee.accountId':acc_id}))
         for i in response:
