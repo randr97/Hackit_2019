@@ -1,6 +1,9 @@
 import datetime
+import time
+
 from github import Github
-from services.git_dao import GitDatabase
+
+from dao.git_dao import GitDatabase
 
 TOKEN = 'f8e47bb8b94f9b27c72931bf9300b31c90137f1d'
 REPO_NAME = 'DhruvaPatil98/Hackit_2019'
@@ -14,6 +17,7 @@ class GitHubJob:
         return Github(token)
 
     def get_repo(self, repo_id_or_name): # Ex: "194830160" or "DhruvaPatil98/alchemy-marketing-ui"
+        print(self.user.get_repos(), repo_id_or_name)
         return self.user.get_repo(repo_id_or_name)
 
     def get_commits_in_range(self, **kwargs):
@@ -34,6 +38,7 @@ class GitHubJob:
 
     def git_job(self):
         try:
+            print(1)
             database_object = GitDatabase()
             all_commits = self.get_commits_in_range()
             all_commits_status = [self.get_commit_stats(c) for c in all_commits]
@@ -43,3 +48,8 @@ class GitHubJob:
         except Exception as e:
             print(e)
             return False
+
+job_object = GitHubJob()
+while 1:
+    job_object.git_job()
+    time.sleep(1)
