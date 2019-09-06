@@ -14,6 +14,10 @@ class JiraDatabase:
         self.mydb = self.client["hackit"]
         self.mycol = self.mydb["jira_issue_data"]
     
+    def get_all_tickets(self):
+        response = self.mycol.find({})
+        return response
+    
     def write_all_tickets(self, issue_data):
         reponse = self.mycol.insert_many(issue_data)
         return reponse
