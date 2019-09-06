@@ -1,0 +1,58 @@
+body{
+	background-color:#ccc;
+}
+.container{
+	background-color: teal;
+	padding: 100px;
+	margin-top:50px;
+}
+
+#ticketPanel{
+	display: none;
+}
+
+.panel{
+	height: 300px;
+}
+h2{
+	color: aliceblue;
+    font-family: cursive;
+    font-size: 48px;
+    text-align: center;
+}
+label{
+	color: aliceblue;
+    font-family: fantasy;
+    font-size: 22px;
+}
+button{
+	background-color: #ccc!important;
+    width: 300px;
+    height: 63px;
+    /* margin: 0 auto; */
+    font-size: 25px!important;
+    color: teal!important;
+    font-family: cursive;
+    border-radius: 30px!important;
+}
+.form-group,h2{
+	padding-bottom: 69px;
+}
+.remember-me .form-group{
+	text-align:center;
+	padding-bottom:0px;
+}
+input#email, input#pwd{
+	border-radius:27px;
+	height: 49px;
+}
+table{
+	margin-left:110px!important;
+}
+tr{
+	height:50px;
+}
+td, th{
+	font-family:monospace;
+	padding: 30px;
+}
