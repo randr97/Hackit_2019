@@ -5,7 +5,7 @@ from github import Github
 
 from dao.git_dao import GitDatabase
 
-TOKEN = 'f8e47bb8b94f9b27c72931bf9300b31c90137f1d'
+TOKEN = 'd4adbf4572dc1f54d9c9accf028cd9adc4a8e2e2'
 REPO_NAME = 'DhruvaPatil98/Hackit_2019'
 
 class GitHubJob:
@@ -13,11 +13,10 @@ class GitHubJob:
         self.user = self.get_user(token)
         self.repo = self.get_repo(repo_name)
 
-    def get_user(self, token): # Ex: dhruva - 1b5dc1829a80dbf083bf38275499808f36a79d7a, rohit - f8e47bb8b94f9b27c72931bf9300b31c90137f1d
+    def get_user(self, token): # Ex: dhruva - 1b5dc1829a80dbf083bf38275499808f36a79d7a, rohit - d4adbf4572dc1f54d9c9accf028cd9adc4a8e2e2
         return Github(token)
 
     def get_repo(self, repo_id_or_name): # Ex: "194830160" or "DhruvaPatil98/alchemy-marketing-ui"
-        print(self.user.get_repos(), repo_id_or_name)
         return self.user.get_repo(repo_id_or_name)
 
     def get_commits_in_range(self, **kwargs):
@@ -38,10 +37,12 @@ class GitHubJob:
 
     def git_job(self):
         try:
-            print(1)
             database_object = GitDatabase()
             all_commits = self.get_commits_in_range()
             all_commits_status = [self.get_commit_stats(c) for c in all_commits]
+            print("*********************")
+            print(all_commits_status[-1])
+            print("*********************")
             database_object.delete_all_commits()
             database_object.write_all_commits(all_commits_status)
             return True
