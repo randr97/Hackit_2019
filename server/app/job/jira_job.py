@@ -9,7 +9,6 @@ import json
 
 redis = Redis(host='redis', port=6379)
 redis.set('ticket_id', json.dumps(['ID']))
-redis.set('user_id', json.dumps(['ID']))
 
 StatusCodes = {
     'To Do': 11,
@@ -28,7 +27,6 @@ class JiraJob:
         print("Calling job ==========>")  
         projects = jc.projects()
         issues_final = []
-        # user_final = []
         for v in projects:
             issues_in_proj = jc.search_issues(f'project={v.key}')
             for issues in issues_in_proj:
@@ -41,6 +39,7 @@ class JiraJob:
                         'issue_id': issues.id,
                         'ticket_name': issues.key,
                         'created_on': issues.fields.created,
+                        'summary': issues.fields.summary,
                         'status': dict(issues.fields.status.raw),
                         'assignee': dict(issues.fields.assignee.raw),
                         'start_time':'',
@@ -51,18 +50,7 @@ class JiraJob:
                     }
                     issues_final.append(issue_temp)
                     cache_user = json.loads(redis.get('user_id'))
-                    print('=======>', cache_user)
-                    if issues.fields.assignee.accountId not in cache_user:
-                        print("mofo2")
-                        cache_user.append(issues.fields.assignee.accountId)
-                        redis.set('user_id', json.dumps(cache_user))
-                        # user_final.append(dict(issues.fields.assignee.raw))
 
-        # if(len(user_final) > 0):
-        #     to_mongo = UserDatabase()
-        #     print('USER To mongo ==========>', user_final)
-        #     response = to_mongo.write_users(user_final)
-        #     print('USER Mongo Response ==========>', response)
         if(len(issues_final) > 0):
             to_mongo = JiraDatabase()
             print('TICKET To mongo ==========>', issues_final)
@@ -96,7 +84,7 @@ class JiraJob:
         self.get_issues(jc)
 
 
-jj = JiraJob()
-while 1:
-    jj.job()
-    time.sleep(1)
+# jj = JiraJob()
+# while 1:
+#     jj.job()
+#     time.sleep(1)
