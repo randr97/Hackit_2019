@@ -11,6 +11,11 @@ redis = Redis(host='redis', port=6379)
 redis.set('ticket_id', json.dumps(['ID']))
 redis.set('user_id', json.dumps(['ID']))
 
+StatusCodes = {
+    'To Do': 11,
+    'In Progress': 21,
+    'Done': 31,
+}
 
 PROJECT_URL="https://bitsandbytes.atlassian.net"
 ADMIN_ID="rohitshrothrium.ss1997@gmail.com"
@@ -23,7 +28,7 @@ class JiraJob:
         print("Calling job ==========>")  
         projects = jc.projects()
         issues_final = []
-        user_final = []
+        # user_final = []
         for v in projects:
             issues_in_proj = jc.search_issues(f'project={v.key}')
             for issues in issues_in_proj:
@@ -51,13 +56,13 @@ class JiraJob:
                         print("mofo2")
                         cache_user.append(issues.fields.assignee.accountId)
                         redis.set('user_id', json.dumps(cache_user))
-                        user_final.append(dict(issues.fields.assignee.raw))
+                        # user_final.append(dict(issues.fields.assignee.raw))
 
-        if(len(user_final) > 0):
-            to_mongo = UserDatabase()
-            print('USER To mongo ==========>', user_final)
-            response = to_mongo.write_users(user_final)
-            print('USER Mongo Response ==========>', response)
+        # if(len(user_final) > 0):
+        #     to_mongo = UserDatabase()
+        #     print('USER To mongo ==========>', user_final)
+        #     response = to_mongo.write_users(user_final)
+        #     print('USER Mongo Response ==========>', response)
         if(len(issues_final) > 0):
             to_mongo = JiraDatabase()
             print('TICKET To mongo ==========>', issues_final)
@@ -80,10 +85,16 @@ class JiraJob:
             log.error("Failed to connect to JIRA: %s" % e)
             return None
 
+    def update_status(self, ticket_name, status):
+        jc = self.connect_jira(log, PROJECT_URL, ADMIN_ID, AUTH_TOKEN)
+        issue = jc.issue(ticket_name)
+        response = jc.transition_issue(issue, StatusCodes[status])
+        return response
 
     def job(self):
         jc = self.connect_jira(log, PROJECT_URL, ADMIN_ID, AUTH_TOKEN)
         self.get_issues(jc)
+
 
 jj = JiraJob()
 while 1:

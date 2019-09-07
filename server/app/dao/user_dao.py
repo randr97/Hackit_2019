@@ -26,7 +26,12 @@ class UserDatabase:
             del i['_id']
         return response
     
+    def write_user(self, user_data):
+        reponse = self.mycol.insert(user_data)
+        return reponse
+
     def write_users(self, issue_data):
+        git_data = {}
         reponse = self.mycol.insert_many(issue_data)
         return reponse
     

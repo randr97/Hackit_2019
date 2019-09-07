@@ -7,6 +7,9 @@ from dao.jira_dao import JiraDatabase
 from dao.user_dao import UserDatabase
 from flask_cors import CORS
 from werkzeug import secure_filename
+from job.jira_job import JiraJob
+from services.git_services import GitServices
+from services.enum import StatusEnum
 
 app = flask.Flask(__name__)
 redis = Redis(host='redis', port=6379)
@@ -23,7 +26,7 @@ def users():
 def jira_tickets(acc_id):
     ticket = JiraDatabase()
     response = ticket.get_tickets_id(acc_id)
-    return flask.jsonify({"user_info": response})
+    return flask.jsonify({"tickets": response})
 
 @app.route('/users/<acc_id>/<ticket_name>', methods=["GET"])
 def git_commits(acc_id, ticket_name):
@@ -32,14 +35,29 @@ def git_commits(acc_id, ticket_name):
     github_object = GitDatabase()
     user_object = UserDatabase()
     git_id = user_object.get_user_id(acc_id)[0].get('github_id')
+    github_service = GitServices(ticket_name, git_id)
     git_commits = github_object.get_commits_from_user(ticket_name, git_id)
-    return flask.jsonify({"ticket_info": ticket_info, "git_commits": git_commits})
+    graph_data = github_service.get_time_commit()
+    return flask.jsonify({"ticket_info": ticket_info, "git_commits": git_commits, "graph_data": graph_data})
 
 @app.route('/upload', methods=['POST'])
 def upload():
     file = flask.request.files['file']
     file.save(os.path.abspath(f'uploads/{file.filename}'))
     return flask.jsonify({"message": "success"})
+
+@app.route('/status',methods=["PUT"])
+def status_change():
+    ticket_name = flask.request.json['ticket_name']
+    status = flask.request.json['status']
+    jira_object = JiraDatabase()
+    jira_job = JiraJob()
+    if status in [StatusEnum.DONE, StatusEnum.INPROGRESS]:
+        response = jira_object.update_status(ticket_name, status)
+        jira_job.update_status(ticket_name, status)
+    else:
+        response = jira_object.update_status(ticket_name, status)
+    return {"result": str(response)}
 
 # @app.route('/gitcommits', methods=["GET"])
 # def git_commits():

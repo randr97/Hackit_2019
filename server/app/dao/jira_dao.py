@@ -14,6 +14,12 @@ class JiraDatabase:
         self.mydb = self.client["hackit"]
         self.mycol = self.mydb["jira_issue_data"]
     
+    def update_status(self, ticket_name, status):
+        newvalues = {"$set": {"status.name": status}}
+        myquery = {"ticket_name": ticket_name}
+        response = self.mycol.update_one(myquery, newvalues)
+        return response
+
     def get_all_tickets(self):
         response = self.mycol.find({})
         return response

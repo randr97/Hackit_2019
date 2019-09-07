@@ -5,7 +5,7 @@ from github import Github
 
 from dao.git_dao import GitDatabase
 
-TOKEN = 'e5e696af62d9ef7bb09643a18194008cf48937f0'
+TOKEN = 'bc3b10857ea0b087c9824d3b93dd31b94d255a33'
 REPO_NAME = 'Hackit_2019'
 
 class GitHubJob:
@@ -43,7 +43,7 @@ class GitHubJob:
             "author_id": newcommit.author.id,
             "commit_message": newcommit.commit.message,
             "additions": newcommit.stats.additions,
-            "deletetions": newcommit.stats.deletions,
+            "deletions": newcommit.stats.deletions,
             "total": newcommit.stats.total,
             "time": newcommit.commit.author.date.replace(tzinfo=datetime.timezone.utc).astimezone(tz=None),
         }
@@ -66,6 +66,8 @@ class GitHubJob:
             return False
 
 job_object = GitHubJob()
-while 1:
-    job_object.git_job()
-    time.sleep(1)
+job_object.git_job()
+
+# while 1:
+#     job_object.git_job()
+#     time.sleep(1)
