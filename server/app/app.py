@@ -11,7 +11,7 @@ from job.jira_job import JiraJob
 from services.git_services import GitServices
 from services.enum import StatusEnum
 
-app = flask.Flask(__name__)
+app = flask.Flask(__name__,static_url_path='/code/uploads')
 redis = Redis(host='redis', port=6379)
 CORS(app)
 
@@ -45,6 +45,10 @@ def upload():
     file = flask.request.files['file']
     file.save(os.path.abspath(f'uploads/{file.filename}'))
     return flask.jsonify({"message": "success"})
+
+@app.route('/get/<path:path>')
+def send_png(path):
+    return flask.send_from_directory(directory='/code/uploads/', filename=path)
 
 @app.route('/status',methods=["PUT"])
 def status_change():
