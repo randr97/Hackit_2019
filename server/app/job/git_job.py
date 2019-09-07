@@ -33,8 +33,8 @@ class GitHubJob:
             "deletions_java": sum([i.deletions for i in files if 'js' in i.filename.split('.')[-1]]),
             "additions_html": sum([i.additions for i in files if 'html' in i.filename.split('.')[-1]]),
             "deletions_html": sum([i.deletions for i in files if 'html' in i.filename.split('.')[-1]]),
-            "additions_css": sum([i.additions for i in files if 'less' in i.filename.split('.')[-1]]),
-            "deletions_css": sum([i.deletions for i in files if 'less' in i.filename.split('.')[-1]]),
+            "additions_css": sum([i.additions for i in files if 'css' in i.filename.split('.')[-1]]),
+            "deletions_css": sum([i.deletions for i in files if 'css' in i.filename.split('.')[-1]]),
         }
         stats = {
             "commit_id": newcommit.sha,
