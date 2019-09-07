@@ -97,8 +97,6 @@ class JiraJob:
 
 
 jj = JiraJob()
-jj.job()
-
-# while 1:
-#     jj.job()
-#     time.sleep(1)
+while 1:
+    jj.job()
+    time.sleep(1)
