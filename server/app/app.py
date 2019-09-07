@@ -1,10 +1,12 @@
 # compose_flask/app.py
+import os
 import flask
 from redis import Redis
 from dao.git_dao import GitDatabase
 from dao.jira_dao import JiraDatabase
 from dao.user_dao import UserDatabase
 from flask_cors import CORS
+from werkzeug import secure_filename
 
 app = flask.Flask(__name__)
 redis = Redis(host='redis', port=6379)
@@ -32,7 +34,12 @@ def git_commits(acc_id, ticket_name):
     git_id = user_object.get_user_id(acc_id)[0].get('github_id')
     git_commits = github_object.get_commits_from_user(ticket_name, git_id)
     return flask.jsonify({"ticket_info": ticket_info, "git_commits": git_commits})
-    
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    file = flask.request.files['file']
+    file.save(os.path.abspath(f'uploads/{file.filename}'))
+    return flask.jsonify({"message": "success"})
 
 # @app.route('/gitcommits', methods=["GET"])
 # def git_commits():
