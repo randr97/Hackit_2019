@@ -37,15 +37,14 @@ def git_commits(acc_id, ticket_name):
     git_id = user_object.get_user_id(acc_id)[0].get('github_id')
     github_service = GitServices(ticket_name, git_id)
     git_commits = github_object.get_commits_from_user(ticket_name, git_id)
-    return flask.jsonify({"ticket_info": ticket_info, "git_commits": git_commits})
+    graph_data = github_service.get_time_commit()
+    return flask.jsonify({"ticket_info": ticket_info, "git_commits": git_commits, "graph_data": graph_data})
 
 @app.route('/upload', methods=['POST'])
 def upload():
     file = flask.request.files['file']
     file.save(os.path.abspath(f'uploads/{file.filename}'))
     return flask.jsonify({"message": "success"})
-    graph_data = github_service.get_time_commit()
-    return flask.jsonify({"ticket_info": ticket_info, "git_commits": git_commits, "graph_data": graph_data})
 
 @app.route('/status',methods=["PUT"])
 def status_change():
